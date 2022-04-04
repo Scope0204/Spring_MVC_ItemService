@@ -73,11 +73,21 @@ public class BasicItemController {
         return "basic/item";
     }
 
-    @PostMapping("/add")
+    //@PostMapping("/add")
     public String addItemV4(Item item){
         itemRepository.save(item);
         return "basic/item";
     }
+
+    /**
+     * 상품 등록 후 뷰 템플릿이 아니라, 상품 상세목록으로 리다이렉트(PRG)
+     */
+    @PostMapping("/add")
+    public String addItemV5(Item item){
+        itemRepository.save(item);
+        return "redirect:/basic/items/" + item.getId();
+    }
+
 
     /**
      * 상품 수정 화면
@@ -90,14 +100,13 @@ public class BasicItemController {
     }
 
     /**
-     * 상품 수정 저장 기능
+     * 상품 수정 저장 기능 : 저장 후 리다이렉트
      */
     @PostMapping("/{itemId}/edit")
     public String edit(@PathVariable Long itemId, @ModelAttribute Item item ) {
         itemRepository.update(itemId, item);
         return "redirect:/basic/items/{itemId}";
     }
-
 
 
     /**
